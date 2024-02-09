@@ -243,5 +243,9 @@ export class ChargerSimulator {
     UpdateFirmware: async (req) => {
       return {status: "Accepted"}
     },
+
+    UnlockConnector: async(req) => {
+      return {status: "Unlocked"}
+    },
   }
 }

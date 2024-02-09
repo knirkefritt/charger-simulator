@@ -77,6 +77,8 @@ will result in StartTransaction and multiple MeterValues to be sent to central s
 
 *ChangeAvailability, ClearCache, ReserveNow, CancelReservation, Reset*. Return 'Accepted', but do nothing.
 
+*UnlockConnector*. Will return 'Unlocked'.
+
 All other methods are not implemented.
 
 # Library usage

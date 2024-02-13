@@ -127,6 +127,7 @@ const usageSections = [
         chargePointModel: "OCX",
         chargePointSerialNumber: "1234-5678",
         meterSerialNumber: "1234-5678-AA-BB",
+        meterType: "Single-phase",
         firmwareVersion: "AA-001",
         iccid: "OMEGA-PEPEGA",
         imsi: "ENERGY-001",

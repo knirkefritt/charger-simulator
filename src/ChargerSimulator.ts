@@ -247,5 +247,8 @@ export class ChargerSimulator {
     UnlockConnector: async(req) => {
       return {status: "Unlocked"}
     },
+    GetDiagnostics: async (req) => {
+      return {fileName: "file.extension"}
+    },
   }
 }

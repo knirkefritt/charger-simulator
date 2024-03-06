@@ -250,5 +250,8 @@ export class ChargerSimulator {
     GetDiagnostics: async (req) => {
       return {fileName: "file.extension"}
     },
+    SendLocalList: async(req) => {
+      return {status: "Accepted"}
+    },
   }
 }

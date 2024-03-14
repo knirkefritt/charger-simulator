@@ -126,7 +126,8 @@ export class ChargerSimulator {
           this.centralSystem.MeterValues({
             connectorId,
             transactionId: this.transactionId,
-            meterValue: {
+            meterValue: [
+              {
                 timestamp: new Date(),
                 sampledValue: [
                   {
@@ -141,6 +142,7 @@ export class ChargerSimulator {
                   },
                 ],
               },
+            ],
           })
         }, this.config.meterValuesIntervalSec * 1000)
       },

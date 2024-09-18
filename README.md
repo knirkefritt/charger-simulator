@@ -3,6 +3,27 @@ Can be used as CLI program, or as library in any JS environment.
 
 # CLI usage
 
+## Setup
+
+The workspace takes the following variables for configuration
+
+You need to run `az login` with your account, and choose the subscription with the relevant container registry to deploy.
+
+```bash
+export CONTAINER_REGISTRY_NAME="faglig"
+export OCPP_SIMULATOR_TAG="ocpp-simulator-dev"
+export OCPP_SIMULATOR_VERSION=""
+```
+
+If unable to run scripts set permission to `chmod +x filename.sh` on the relevant file in the scripts folder.
+
+This should be added to the configuration of the devcontainer, but no time. Run the following command to create a custom builder for multiplatform builds. Will be used by the `buildandpublish.sh` script
+
+```bash
+docker buildx create --name container-builder --driver docker-container --use --bootstrap 
+```
+
+
 ## Getting started
 
 Install in project

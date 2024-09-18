@@ -46,7 +46,7 @@ const optionList = [
     typeLabel: "{underline idTag}",
     alias: "t",
     defaultValue: "12345678",
-  },
+  }
 ]
 
 const usageSections = [
@@ -62,6 +62,7 @@ const usageSections = [
 
 ;(async () => {
   const {connectorId, csURL, cpPort, chargerId, idTag} = commandLineArgs(optionList)
+  var started = false
 
   if (!connectorId || !csURL || !chargerId) {
     const usage = commandLineUsage(usageSections)
@@ -150,6 +151,15 @@ const usageSections = [
     u: () => simulator.centralSystem.Authorize({idTag}),
     s: () => simulator.startTransaction({idTag, connectorId}, false),
     t: () => simulator.stopTransaction(false),
+  }
+
+  
+  if (!started) {
+    console.log("Start sending meter values please")
+    const command = commands["s"]
+    command && command()
+
+    started = true
   }
 
   readline.emitKeypressEvents(process.stdin)

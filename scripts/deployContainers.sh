@@ -15,7 +15,7 @@ centralSystemDomain=ocpp-centralsystem-group1.greensky-f82bf600.norwayeast.azure
 echo $userid
 echo $spid
 
-for instancenumber in {1..3}
+for instancenumber in {1..2}
 do
     echo "Going to create instance with number $instancenumber"
     az container create \
@@ -23,7 +23,8 @@ do
         --name simulationcontainer$instancenumber \
         --image faglig.azurecr.io/ocpp/ocpp-simulator-dev:0.1-amd64 \
         --dns-name-label sim-$myUniquePrefix-$instancenumber \
-        --command-line "wss://${centralSystemDomain}/ocpp -i charger$instancenumber"\
+        --command-line "node ./dist/chargerSimulatorCli.js wss://${centralSystemDomain}/ocpp -i charger$instancenumber"\
         --registry-login-server faglig.azurecr.io \
-        --acr-identity $userid --assign-identity $userid
+        --acr-identity $userid --assign-identity $userid\
+        --ports 443 80 --no-wait
 done

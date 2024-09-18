@@ -162,17 +162,17 @@ const usageSections = [
     started = true
   }
 
-  readline.emitKeypressEvents(process.stdin)
-  process.stdin.setRawMode(true)
+  // readline.emitKeypressEvents(process.stdin)
+  // process.stdin.setRawMode(true)
 
-  process.stdin.on("keypress", (ch, key) => {
-    if (key.ctrl && key.name === "c") {
-      process.exit()
-    }
+  // process.stdin.on("keypress", (ch, key) => {
+  //   if (key.ctrl && key.name === "c") {
+  //     process.exit()
+  //   }
 
-    if (ch) {
-      const command = commands[ch]
-      command && command()
-    }
-  })
+  //   if (ch) {
+  //     const command = commands[ch]
+  //     command && command()
+  //   }
+  // })
 })()

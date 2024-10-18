@@ -31,6 +31,7 @@
     "command-line-args": "^5.1.1",
     "command-line-usage": "^6.1.0",
     "strong-soap": "1.21.0",
+    "uuid": "^10.0.0",
     "ws": "^8.15.1",
     "xml2js": "^0.4.23"
   }

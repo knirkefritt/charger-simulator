@@ -1,6 +1,7 @@
 import * as commandLineArgs from "command-line-args"
 import * as commandLineUsage from "command-line-usage"
 import * as readline from "readline"
+import { v4 } from 'uuid';
 
 import {log} from "./log"
 import {ChargerSimulator} from "./ChargerSimulator"
@@ -61,8 +62,10 @@ const usageSections = [
 ]
 
 ;(async () => {
-  const {connectorId, csURL, cpPort, chargerId, idTag} = commandLineArgs(optionList)
+  let {connectorId, csURL, cpPort, idTag, chargerId } = commandLineArgs(optionList)
   var started = false
+
+  chargerId = chargerId === 'test' ? `charger${v4()}` : chargerId
 
   if (!connectorId || !csURL || !chargerId) {
     const usage = commandLineUsage(usageSections)
@@ -153,26 +156,32 @@ const usageSections = [
     t: () => simulator.stopTransaction(false),
   }
 
+  const delay = (ms) => {
+    return new Promise(resolve => {
+      setTimeout(() => resolve(undefined), ms);
+    });
+  };
   
-  if (!started) {
-    console.log("Start sending meter values please")
-    const command = commands["s"]
-    command && command()
+  const simulateChargeSession = async () => {
+    commands.p();
+    await delay(2000); // milliseconds (2 seconds)
+    commands.c();
+    await delay(2000);
+    commands.f();
+    await delay(5000);
+  };
+  
+  const startChargingSession = async () => {
+    if (!started) {
+      console.log("Start sending meter values please");
+      commands.s();
+      commands.o();
+  
+      while (true) {
+        await simulateChargeSession();
+      }
+    }
+  };
 
-    started = true
-  }
-
-  // readline.emitKeypressEvents(process.stdin)
-  // process.stdin.setRawMode(true)
-
-  // process.stdin.on("keypress", (ch, key) => {
-  //   if (key.ctrl && key.name === "c") {
-  //     process.exit()
-  //   }
-
-  //   if (ch) {
-  //     const command = commands[ch]
-  //     command && command()
-  //   }
-  // })
+  startChargingSession();
 })()

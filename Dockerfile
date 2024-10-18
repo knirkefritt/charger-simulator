@@ -1,6 +1,7 @@
 FROM node:alpine
 COPY . .
-RUN yarn install\
-    && yarn global add typescript
-RUN yarn run tsc
+RUN npm install \
+    && npm install -g typescript
+RUN npx tsc
 ENTRYPOINT [ "node", "./dist/chargerSimulatorCli.js" ]
+

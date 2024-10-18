@@ -66,6 +66,7 @@ const usageSections = [
   var started = false
 
   chargerId = chargerId === 'test' ? `charger${v4()}` : chargerId
+  csURL = csURL ?? 'wss://group2.knirkefritt.dev/ocpp'
 
   if (!connectorId || !csURL || !chargerId) {
     const usage = commandLineUsage(usageSections)

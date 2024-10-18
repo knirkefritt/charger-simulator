@@ -1,10 +1,10 @@
 import * as commandLineArgs from "command-line-args"
 import * as commandLineUsage from "command-line-usage"
 import * as readline from "readline"
-import { v4 } from 'uuid';
-
+import './instrumentation';
 import {log} from "./log"
 import {ChargerSimulator} from "./ChargerSimulator"
+import { uniqueChargerId } from "./constants"
 
 const optionList = [
   {
@@ -65,7 +65,7 @@ const usageSections = [
   let {connectorId, csURL, cpPort, idTag, chargerId } = commandLineArgs(optionList)
   var started = false
 
-  chargerId = chargerId === 'test' ? `charger${v4()}` : chargerId
+  chargerId = chargerId === 'test' ? `charger${uniqueChargerId}` : chargerId
   csURL = csURL ?? 'wss://group2.knirkefritt.dev/ocpp'
 
   if (!connectorId || !csURL || !chargerId) {

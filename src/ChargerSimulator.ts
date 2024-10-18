@@ -3,6 +3,8 @@ import {wrapWebsocket} from "@push-rpc/websocket/dist/server"
 import * as WebSocket from "ws"
 import {log} from "./log"
 import {createCentralSystemClient, createChargePointServer} from "./soap/ocppSoap"
+import opentelemetry, { metrics } from '@opentelemetry/api';
+import { uniqueChargerId } from "./constants"
 
 export interface Config {
   defaultHeartbeatIntervalSec?: number
@@ -29,6 +31,12 @@ const defaultConfig: Partial<Config> = {
 }
 
 let ws: WebSocket
+let connectCount = 0;
+let disconnectCount = 0;
+
+const meter = metrics.getMeter('OCPP.Charger')
+const connectCountMetrics = meter.createCounter('connect.count');
+const disconnectCountMetrics = meter.createCounter('disconnect.count');
 
 export class ChargerSimulator {
   constructor(config: Config) {
@@ -77,13 +85,16 @@ export class ChargerSimulator {
               log.debug("OCPP out", data)
             },
             connected() {
+              connectCountMetrics.add(++connectCount)
               log.debug("OCPP connected")
             },
-            disconnected({code, reason}) {
-              log.debug("OCPP disconnected", {code, reason})
+            disconnected({ code, reason }) {
+              disconnectCountMetrics.add(++connectCount);
+              log.debug("OCPP disconnected", { code, reason })
             },
-            subscribed(subscriptions: number): void {},
+            subscribed(subscriptions: number): void { },
             unsubscribed(subscriptions: number): void {},
+            
           },
         }
       )
